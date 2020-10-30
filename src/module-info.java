@@ -6,5 +6,5 @@ module e.mail.client {
     requires javafx.web;
 
     opens project;
-    opens project.view;
+    opens project.controller;
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+
+<AnchorPane prefHeight="546.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="project.controller.MainWindowController">
+   <children>
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="764.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Plik">
+            <items>
+                  <MenuItem mnemonicParsing="false" text="Otwórz" />
+              <MenuItem mnemonicParsing="false" text="Zamknij" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edytuj">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#optionsAction" text="Opcje" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Pomoc">
+            <items>
+              <MenuItem mnemonicParsing="false" text="O programie" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TreeView fx:id="emailsTreeView" layoutY="27.0" prefHeight="520.0" prefWidth="200.0" />
+      <TableView fx:id="emailsTableView" layoutX="200.0" layoutY="27.0" prefHeight="200.0" prefWidth="564.0">
+        <columns>
+          <TableColumn prefWidth="95.0" text="Nadawca" />
+          <TableColumn prefWidth="204.0" text="Temat" />
+            <TableColumn prefWidth="120.0" text="Odbiorca" />
+            <TableColumn prefWidth="61.0" text="Rozmiar" />
+            <TableColumn prefWidth="82.0" text="Data" />
+        </columns>
+      </TableView>
+      <WebView fx:id="emailWebView" layoutX="200.0" layoutY="227.0" prefHeight="319.0" prefWidth="564.0" />
+   </children>
+</AnchorPane>
