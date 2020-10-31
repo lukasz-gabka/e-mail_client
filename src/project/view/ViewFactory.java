@@ -8,6 +8,7 @@ import project.EmailManager;
 import project.controller.BaseController;
 import project.controller.LoginWindowController;
 import project.controller.MainWindowController;
+import project.controller.OptionsWindowController;
 
 import java.io.IOException;
 
@@ -20,16 +21,17 @@ public class ViewFactory {
     }
 
     public void showLoginWindow() {
-        System.out.println("Showing login window");
-
         BaseController controller = new LoginWindowController(emailManager, this, "LoginWindow.fxml");
         initializeStage(controller);
     }
 
     public void showMainWindow() {
-        System.out.println("Showing main window");
-
         BaseController controller = new MainWindowController(emailManager, this, "MainWindow.fxml");
+        initializeStage(controller);
+    }
+
+    public void showOptionsWindow() {
+        BaseController controller = new OptionsWindowController(emailManager, this, "OptionsWindow.fxml");
         initializeStage(controller);
     }
 
