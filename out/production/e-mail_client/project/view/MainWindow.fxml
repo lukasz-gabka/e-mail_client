@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.WebView?>
 
-
 <AnchorPane prefHeight="546.0" prefWidth="764.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar prefHeight="27.0" prefWidth="764.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,6 +16,7 @@
           <Menu mnemonicParsing="false" text="Plik">
             <items>
                   <MenuItem mnemonicParsing="false" text="Otwórz" />
+                  <MenuItem mnemonicParsing="false" onAction="#addAccountAction" text="Dodaj konto" />
               <MenuItem mnemonicParsing="false" text="Zamknij" />
             </items>
           </Menu>

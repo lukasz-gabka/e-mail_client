@@ -11,16 +11,20 @@ import project.controller.MainWindowController;
 import project.controller.OptionsWindowController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ViewFactory {
 
     private EmailManager emailManager;
+
+    private ArrayList<Stage> activeStages;
 
     private ColorTheme colorTheme = ColorTheme.DEFAULT;
     private FontSize fontSize = FontSize.MEDIUM;
 
     public ViewFactory(EmailManager emailManager) {
         this.emailManager = emailManager;
+        this.activeStages = new ArrayList<Stage>();
     }
 
     public void showLoginWindow() {
@@ -56,10 +60,24 @@ public class ViewFactory {
         stage.setScene(scene);
 
         stage.show();
+
+        activeStages.add(stage);
     }
 
     public void closeStage(Stage stageToClose) {
         stageToClose.close();
+
+        activeStages.remove(stageToClose);
+    }
+
+    public void updateStyles() {
+        for (Stage stage: activeStages) {
+            Scene scene = stage.getScene();
+
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(getClass().getResource(ColorTheme.getCssPath(colorTheme)).toExternalForm());
+            scene.getStylesheets().add(getClass().getResource(FontSize.getCssPath(fontSize)).toExternalForm());
+        }
     }
 
     public ColorTheme getColorTheme() {
