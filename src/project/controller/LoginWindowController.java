@@ -1,6 +1,7 @@
 package project.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -9,7 +10,10 @@ import project.controller.services.LoginService;
 import project.model.EmailAccount;
 import project.view.ViewFactory;
 
-public class LoginWindowController extends BaseController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoginWindowController extends BaseController implements Initializable {
 
     public LoginWindowController(EmailManager emailManager, ViewFactory viewFactory, String fxmlName) {
         super(emailManager, viewFactory, fxmlName);
@@ -29,19 +33,31 @@ public class LoginWindowController extends BaseController {
         if (fieldsAreValid()) {
             EmailAccount emailAccount = new EmailAccount(emailAddressField.getText(), passwordField.getText());
             LoginService loginService = new LoginService(emailAccount, emailManager);
+            loginService.start();
+            loginService.setOnSucceeded(event -> {
+                EmailLoginResult emailLoginResult = loginService.getValue();
 
-            EmailLoginResult emailLoginResult = loginService.login();
+                switch (emailLoginResult) {
+                    case SUCCESS:
+                        System.out.println("Sukces" + emailAccount);
+                        if (!viewFactory.isMainViewInitialized()) {
+                            viewFactory.showMainWindow();
+                        }
 
-            switch (emailLoginResult) {
-                case SUCCESS:
-                    System.out.println("Sukces" + emailAccount);
-                    return;
-            }
+                        Stage stage = (Stage)errorLabel.getScene().getWindow();
+                        viewFactory.closeStage(stage);
+                        return;
+                    case FAILED_BY_CREDENTIALS:
+                        System.out.println("Błędne dane logowania");
+                        return;
+                    case FAILED_BY_UNEXPECTED_ERROR:
+                        System.out.println("Nieznany błąd");
+                        return;
+                    default:
+                        return;
+                }
+            });
         }
-
-        viewFactory.showMainWindow();
-        Stage stage = (Stage)errorLabel.getScene().getWindow();
-        viewFactory.closeStage(stage);
     }
 
     private boolean fieldsAreValid() {
@@ -56,5 +72,11 @@ public class LoginWindowController extends BaseController {
         }
 
         return true;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        emailAddressField.setText("testjavafxmail@gmail.com");
+        passwordField.setText("...");
     }
 }
