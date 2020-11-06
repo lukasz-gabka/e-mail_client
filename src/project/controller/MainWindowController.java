@@ -2,13 +2,18 @@ package project.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import project.EmailManager;
+import project.model.EmailMessage;
+import project.model.EmailTreeItem;
 import project.view.ViewFactory;
 
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class MainWindowController extends BaseController implements Initializable {
@@ -21,7 +26,22 @@ public class MainWindowController extends BaseController implements Initializabl
     private TreeView<String> emailsTreeView;
 
     @FXML
-    private TableView<?> emailsTableView;
+    private TableView<EmailMessage> emailsTableView;
+
+    @FXML
+    private TableColumn<EmailMessage, String> senderCol;
+
+    @FXML
+    private TableColumn<EmailMessage, String> subjectCol;
+
+    @FXML
+    private TableColumn<EmailMessage, String> recipientCol;
+
+    @FXML
+    private TableColumn<EmailMessage, Integer> sizeCol;
+
+    @FXML
+    private TableColumn<EmailMessage, Date> dateCol;
 
     @FXML
     private WebView emailWebView;
@@ -39,6 +59,25 @@ public class MainWindowController extends BaseController implements Initializabl
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setUpEmailsTreeView();
+        setUpEmailsTableView();
+        setUpFolderSelection();
+    }
+
+    private void setUpFolderSelection() {
+        emailsTreeView.setOnMouseClicked(e->{
+            EmailTreeItem<String> item = (EmailTreeItem<String>)emailsTreeView.getSelectionModel().getSelectedItem();
+            if (item != null) {
+                emailsTableView.setItems(item.getEmailMessages());
+            }
+        });
+    }
+
+    private void setUpEmailsTableView() {
+        senderCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("sender"));
+        subjectCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("subject"));
+        recipientCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, String>("recipient"));
+        sizeCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Integer>("size"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<EmailMessage, Date>("date"));
     }
 
     private void setUpEmailsTreeView() {
