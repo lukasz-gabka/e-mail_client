@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebView;
 import javafx.util.Callback;
 import project.EmailManager;
+import project.controller.services.MessageRendererService;
 import project.model.EmailMessage;
 import project.model.EmailTreeItem;
 import project.model.SizeInteger;
@@ -49,6 +50,8 @@ public class MainWindowController extends BaseController implements Initializabl
     @FXML
     private WebView emailWebView;
 
+    private MessageRendererService messageRendererService;
+
     @FXML
     void optionsAction() {
         viewFactory.showOptionsWindow();
@@ -65,6 +68,22 @@ public class MainWindowController extends BaseController implements Initializabl
         setUpEmailsTableView();
         setUpFolderSelection();
         setUpBoldRows();
+        setUpMessageRenderService();
+        setUpMessageSelection();
+    }
+
+    private void setUpMessageSelection() {
+        emailsTableView.setOnMouseClicked(event -> {
+            EmailMessage emailMessage = emailsTableView.getSelectionModel().getSelectedItem();
+            if (emailMessage != null) {
+                messageRendererService.setEmailMessage(emailMessage);
+                messageRendererService.restart();
+            }
+        });
+    }
+
+    private void setUpMessageRenderService() {
+        messageRendererService = new MessageRendererService(emailWebView.getEngine());
     }
 
     private void setUpBoldRows() {
