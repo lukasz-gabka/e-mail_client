@@ -6,6 +6,7 @@ import javafx.scene.control.TreeItem;
 import project.model.EmailTreeItem;
 
 import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Store;
 import javax.mail.event.MessageCountEvent;
@@ -60,7 +61,14 @@ public class FetchFoldersService extends Service<Void> {
         folder.addMessageCountListener(new MessageCountListener() {
             @Override
             public void messagesAdded(MessageCountEvent messageCountEvent) {
-                System.out.println("dodano wiadomość");
+                for (int i = 0; i < messageCountEvent.getMessages().length; i++) {
+                    try {
+                        Message message = folder.getMessage(folder.getMessageCount() - i);
+                        emailTreeItem.addEmailToTop(message);
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override
