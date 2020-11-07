@@ -9,4 +9,5 @@ module e.mail.client {
 
     opens project;
     opens project.controller;
+    opens project.model;
 }
