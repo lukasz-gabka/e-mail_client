@@ -8,6 +8,7 @@ import project.controller.services.FolderUpdaterService;
 import project.model.EmailAccount;
 import project.model.EmailMessage;
 import project.model.EmailTreeItem;
+import project.view.IconResolver;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -19,6 +20,7 @@ public class EmailManager {
     private EmailMessage selectedMessage;
     private EmailTreeItem<String> selectedFolder;
     private ObservableList<EmailAccount> emailAccounts = FXCollections.observableArrayList();
+    private IconResolver iconResolver = new IconResolver();
 
     private FolderUpdaterService folderUpdaterService;
     private EmailTreeItem<String> foldersRoot = new EmailTreeItem<String>("");
@@ -41,6 +43,7 @@ public class EmailManager {
     public void addEmailAccount(EmailAccount emailAccount) {
         emailAccounts.add(emailAccount);
         EmailTreeItem<String> treeItem = new EmailTreeItem<String>(emailAccount.getAddress());
+        treeItem.setGraphic(iconResolver.gerIconsForFolder(emailAccount.getAddress()));
         FetchFoldersService fetchFoldersService = new FetchFoldersService(emailAccount.getStore(), treeItem, folderList);
         fetchFoldersService.start();
         foldersRoot.getChildren().add(treeItem);
