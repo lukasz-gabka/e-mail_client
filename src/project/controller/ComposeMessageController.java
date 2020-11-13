@@ -6,16 +6,22 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.web.HTMLEditor;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import project.EmailManager;
 import project.controller.services.EmailSenderService;
 import project.model.EmailAccount;
 import project.view.ViewFactory;
 
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ComposeMessageController extends BaseController implements Initializable {
+
+    private List<File> attachments = new ArrayList<File>();
 
     @FXML
     private TextField recipientTextField;
@@ -42,7 +48,8 @@ public class ComposeMessageController extends BaseController implements Initiali
                 emailAccountChoice.getValue(),
                 subjectTextField.getText(),
                 recipientTextField.getText(),
-                htmlEditor.getHtmlText()
+                htmlEditor.getHtmlText(),
+                attachments
         );
         emailSenderService.start();
         emailSenderService.setOnSucceeded(e -> {
@@ -63,6 +70,16 @@ public class ComposeMessageController extends BaseController implements Initiali
                     break;
             }
         });
+    }
+
+    @FXML
+    void attachButtonAction() {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            attachments.add(selectedFile);
+        }
     }
 
     @Override
