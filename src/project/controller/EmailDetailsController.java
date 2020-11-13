@@ -52,6 +52,8 @@ public class EmailDetailsController extends BaseController implements Initializa
     }
 
     private void loadAttachments(EmailMessage emailMessage) {
+        hBoxDownloads.getChildren().clear();
+
         if (emailMessage.hasAttachments()) {
             for (MimeBodyPart mimeBodyPart: emailMessage.getAttachmentList()) {
                 try {

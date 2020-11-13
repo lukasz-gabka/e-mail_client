@@ -82,4 +82,8 @@ public class EmailMessage {
     public List<MimeBodyPart> getAttachmentList() {
         return attachmentList;
     }
+
+    public void clearAttachmentList() {
+        attachmentList.clear();
+    }
 }
